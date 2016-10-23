@@ -4,6 +4,11 @@ import Models exposing (..)
 import Html exposing (..)
 import Html.App as Html
 import Html.Attributes exposing (..)
+import Positions exposing (..)
+
+type alias Board = List ( List Square )
+
+type Square = Empty | Snake | Food
 
 view : GameState -> Html a
 view state = viewBoard <| createBoard state
