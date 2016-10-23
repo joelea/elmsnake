@@ -14,9 +14,7 @@ main = Html.program { init = model ! [] , view = view, update = update, subscrip
 
 respondToKey : Keyboard.KeyCode -> Msg
 respondToKey keyCode =
-    if keyCode == KeyCodes.up then Tick
-    else if keyCode == KeyCodes.left then Turn Right
-    else if keyCode == KeyCodes.right then Turn Left
+    if keyCode == KeyCodes.up then Noop
     else Noop
 
 subscriptions : GameState -> Sub Msg
@@ -25,7 +23,7 @@ subscriptions model =
         [ Keyboard.presses respondToKey
         ]
 
-type Msg = Noop | Tick | Turn TurnDirection
+type Msg = Noop
 
 model : GameState
 model =
@@ -38,19 +36,5 @@ model =
 update : Msg -> GameState -> ( GameState, Cmd Msg )
 update msg state =
     case msg of
-        Tick -> tickSnake state ! []
-        Turn direction -> turnSnake direction state ! []
         Noop -> state ! []
 
-turnSnake : TurnDirection -> GameState -> GameState
-turnSnake direction state = { state | direction = turn direction state.direction }
-
-tickSnake : GameState -> GameState
-tickSnake state =
-    let
-        snakeLength = List.length state.snake
-        oldHead = Maybe.withDefault (Position 0 0) <| List.head state.snake
-        newHead = move state.direction oldHead
-        newSnake = List.take snakeLength <| newHead :: state.snake
-    in
-    { state | snake = newSnake }
