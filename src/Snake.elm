@@ -7,18 +7,19 @@ import Models exposing (..)
 import ViewBoard exposing (..)
 import Keyboard
 import Positions exposing (..)
+import KeyCodes
 
 main : Program Never
 main = Html.program { init = model ! [] , view = view, update = update, subscriptions = subscriptions }
 
 filterUps : Keyboard.KeyCode -> Msg
-filterUps keyCode = if keyCode == 38 then Tick else Noop
+filterUps keyCode = if keyCode == KeyCodes.up then Tick else Noop
 
 filterLefts : Keyboard.KeyCode -> Msg
-filterLefts keyCode = if keyCode == 37 then Turn Right else Noop
+filterLefts keyCode = if keyCode == KeyCodes.left then Turn Right else Noop
 
 filterRights : Keyboard.KeyCode -> Msg
-filterRights keyCode = if keyCode == 39 then Turn Left else Noop
+filterRights keyCode = if keyCode == KeyCodes.right then Turn Left else Noop
 
 subscriptions : GameState -> Sub Msg
 subscriptions model = Sub.batch
