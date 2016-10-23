@@ -12,21 +12,18 @@ import KeyCodes
 main : Program Never
 main = Html.program { init = model ! [] , view = view, update = update, subscriptions = subscriptions }
 
-filterUps : Keyboard.KeyCode -> Msg
-filterUps keyCode = if keyCode == KeyCodes.up then Tick else Noop
-
-filterLefts : Keyboard.KeyCode -> Msg
-filterLefts keyCode = if keyCode == KeyCodes.left then Turn Right else Noop
-
-filterRights : Keyboard.KeyCode -> Msg
-filterRights keyCode = if keyCode == KeyCodes.right then Turn Left else Noop
+respondToKey : Keyboard.KeyCode -> Msg
+respondToKey keyCode =
+    if keyCode == KeyCodes.up then Tick
+    else if keyCode == KeyCodes.left then Turn Right
+    else if keyCode == KeyCodes.right then Turn Left
+    else Noop
 
 subscriptions : GameState -> Sub Msg
-subscriptions model = Sub.batch
-    [ Keyboard.presses filterUps
-    , Keyboard.presses filterLefts
-    , Keyboard.presses filterRights
-    ]
+subscriptions model =
+    Sub.batch
+        [ Keyboard.presses respondToKey
+        ]
 
 type Msg = Noop | Tick | Turn TurnDirection
 
