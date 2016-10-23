@@ -8,7 +8,10 @@ type alias GameState =
     { boardSize: Int
     , food: Position
     , snake: List Position
+    , direction: Direction
     }
+
+type Direction = North | South | West | East
 
 type alias Position =
     { x: Int
