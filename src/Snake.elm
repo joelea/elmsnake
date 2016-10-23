@@ -9,9 +9,7 @@ import ViewBoard exposing (..)
 main : Program Never
 main = Html.beginnerProgram { model = model, view = view, update = update }
 
-type TurnDirection = Left | Right
-
-type Msg = Tick | Turned TurnDirection
+type Msg = Noop | AnotherNoop
 
 model : GameState
 model =
@@ -21,7 +19,4 @@ model =
     }
 
 update : Msg -> GameState -> GameState
-update msg state =
-    case msg of
-        Tick -> state
-        Turned direction -> state
+update msg state = state
