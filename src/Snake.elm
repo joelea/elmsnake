@@ -14,7 +14,7 @@ main = Html.program { init = model ! [] , view = view, update = update, subscrip
 
 respondToKey : Keyboard.KeyCode -> Msg
 respondToKey keyCode =
-    if keyCode == KeyCodes.up then Noop
+    if keyCode == KeyCodes.up then MoveForward
     else Noop
 
 subscriptions : GameState -> Sub Msg
@@ -23,7 +23,7 @@ subscriptions model =
         [ Keyboard.presses respondToKey
         ]
 
-type Msg = Noop
+type Msg = Noop | MoveForward
 
 model : GameState
 model =
@@ -36,5 +36,17 @@ model =
 update : Msg -> GameState -> ( GameState, Cmd Msg )
 update msg state =
     case msg of
-        Noop -> state ! []
+        Noop -> ( state, Cmd.batch [])
+        MoveForward -> ( moveForward state, Cmd.batch [] )
+
+moveForward : GameState -> GameState
+moveForward state =
+    let
+        snakeLength = List.length state.snake
+        currentHead = Maybe.withDefault (Position 0 0) ( List.head state.snake )
+        newHead = move South currentHead
+        newSnake = List.take snakeLength ( newHead :: state.snake )
+    in
+    { state | snake = newSnake }
+
 

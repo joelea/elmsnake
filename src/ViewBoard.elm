@@ -28,7 +28,7 @@ viewBoard board =
         flexRow = [ ("display", "flex") ]
         flexColumn = [ ("display", "flex"), ("flex-direction", "column") ]
     in
-    div [ style flexColumn ] <| List.map viewRow board
+    div [ style flexColumn ] ( List.map viewRow board )
 
 
 emptyBoard { boardSize } = List.repeat boardSize <| List.repeat boardSize Empty
